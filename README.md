@@ -2,9 +2,6 @@
 
 Aplicación web del clima con una interfaz moderna e interactiva.
 
-## 🚀 Demo
-https://lautarodz.github.io/weather-pro/
-
 ## ✨ Características
 
 - 🔎 Búsqueda de ciudades
