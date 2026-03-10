@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather Pro - App del Clima</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="weather-particles" id="particles"></div>
+
+    <div class="container">
+        <div class="main-card">
+            <div class="header">
+                <div class="header-title">
+                    <h1>🌤️ Weather Pro</h1>
+                    <p>Clima en tiempo real</p>
+                </div>
+                <div class="controls">
+                    <button class="unit-toggle-btn" id="unitToggle" title="Cambiar unidades">°C</button>
+                    <button class="theme-toggle" id="themeToggle" title="Cambiar tema">🌙</button>
+                </div>
+            </div>
+
+            <div class="search-box">
+                <div class="search-input-wrapper">
+                    <input 
+                        type="text" 
+                        class="search-input" 
+                        id="cityInput" 
+                        placeholder="Buscar ciudad..."
+                        autocomplete="off"
+                    >
+                    <button class="search-btn" id="searchBtn">🔍</button>
+                </div>
+                <div class="autocomplete-list" id="autocompleteList"></div>
+            </div>
+
+            <div class="error-message" id="errorMessage">
+                <span>⚠️</span>
+                <span id="errorText">Ciudad no encontrada</span>
+            </div>
+
+            <div class="welcome-state" id="welcomeState">
+                <div class="welcome-icon">🌍</div>
+                <p class="welcome-text">
+                    Ingresa una ciudad para comenzar
+                </p>
+                <div class="quick-cities">
+                    <span class="quick-city" data-city="Madrid">Madrid</span>
+                    <span class="quick-city" data-city="Buenos Aires">Buenos Aires</span>
+                    <span class="quick-city" data-city="Nueva York">Nueva York</span>
+                    <span class="quick-city" data-city="Tokio">Tokio</span>
+                    <span class="quick-city" data-city="Londres">Londres</span>
+                    <span class="quick-city" data-city="Sydney">Sydney</span>
+                </div>
+            </div>
+
+            <div class="weather-main" id="weatherMain">
+                <div class="city-header">
+                    <h2 class="city-name" id="cityName">--</h2>
+                    <p class="current-date" id="currentDate">--</p>
+                </div>
+
+                <div class="weather-hero">
+                    <div class="weather-icon-main" id="weatherIcon">☀️</div>
+                    <div class="temperature-section">
+                        <div class="temperature" id="temperature">--<sup>°C</sup></div>
+                        <div class="weather-desc" id="weatherDesc">--</div>
+                    </div>
+                </div>
+
+                <div class="weather-details">
+                    <div class="detail-card">
+                        <div class="detail-icon">💧</div>
+                        <div class="detail-label">Humedad</div>
+                        <div class="detail-value" id="humidity">--%</div>
+                    </div>
+                    <div class="detail-card">
+                        <div class="detail-icon">💨</div>
+                        <div class="detail-label">Viento</div>
+                        <div class="detail-value" id="windSpeed">-- km/h</div>
+                    </div>
+                    <div class="detail-card">
+                        <div class="detail-icon">🌡️</div>
+                        <div class="detail-label">Sensación</div>
+                        <div class="detail-value" id="feelsLike">--°</div>
+                    </div>
+                    <div class="detail-card">
+                        <div class="detail-icon">👁️</div>
+                        <div class="detail-label">Visibilidad</div>
+                        <div class="detail-value" id="visibility">-- km</div>
+                    </div>
+                </div>
+
+                <div class="radar-section">
+                    <h3 class="section-title">📡 Radar Meteorológico</h3>
+                    <div class="radar-container">
+                        <div class="radar-grid"></div>
+                        <div class="radar-map">
+                            <div class="city-marker"></div>
+                            <div class="weather-zones">
+                                <div class="weather-zone zone-rain"></div>
+                                <div class="weather-zone zone-cloud"></div>
+                                <div class="weather-zone zone-sun"></div>
+                            </div>
+                        </div>
+                        <div class="radar-sweep"></div>
+                    </div>
+                </div>
+
+                <div class="hourly-section">
+                    <h3 class="section-title">⏰ Pronóstico por Horas</h3>
+                    <div class="hourly-scroll" id="hourlyScroll">
+                    </div>
+                </div>
+
+                <div class="forecast-section">
+                    <h3 class="section-title">📅 Próximos 5 Días</h3>
+                    <div class="forecast-grid" id="forecastGrid">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="sidebar">
+            <div class="side-card">
+                <h3 class="favorites-title">⭐ Favoritos</h3>
+                <div id="favoritesList">
+                    <div class="favorite-item" onclick="searchWeather('Madrid')">
+                        <span>🇪🇸 Madrid</span>
+                        <button class="fav-btn active">⭐</button>
+                    </div>
+                    <div class="favorite-item" onclick="searchWeather('Buenos Aires')">
+                        <span>🇦🇷 Buenos Aires</span>
+                        <button class="fav-btn active">⭐</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="side-card">
+                <h3 class="history-title">🕐 Historial</h3>
+                <div class="history-list" id="historyList">
+                </div>
+                <button class="clear-history" onclick="clearHistory()">🗑️ Limpiar historial</button>
+            </div>
+
+            <button onclick="document.querySelector('.main-card').scrollTo({top: 0, behavior: 'smooth'})" 
+        style="position: sticky; bottom: 20px; left: 50%; transform: translateX(-50%); 
+            background: var(--accent); color: white; border: none; padding: 10px 20px; 
+            border-radius: 20px; cursor: pointer; opacity: 0; transition: opacity 0.3s;"
+        id="scrollTopBtn">
+    ↑ Subir
+</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
