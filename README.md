@@ -22,4 +22,4 @@ https://lautarodz.github.io/weather-pro/
 - CSS3
 - JavaScript (Vanilla JS)
 
-## 📂 Estructura del proyecto
+
